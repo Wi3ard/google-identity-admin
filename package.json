@@ -4,15 +4,24 @@
   "description": "Google Identity Platform Admin CLI",
   "author": "Alex Kucher",
   "license": "MIT",
+  "keywords": ["google identity", "identity", "authentication"],
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wi3ard/google-identity-admin.git"
+  },
   "bin": {
     "gia": "bin/gia"
   },
   "main": "src/index",
   "scripts": {
+    "format": "prettier --write \"src/**/*.js\"",
     "lint": "eslint .",
-    "prepublishOnly" : "npm run lint",
-    "start": "node ."
+    "postversion" : "git push && git push --tags",
+    "prepublishOnly": "npm run lint",
+    "preversion": "npm run lint",
+    "start": "node .",
+    "version": "npm run format && git add -A"
   },
   "husky": {
     "hooks": {
