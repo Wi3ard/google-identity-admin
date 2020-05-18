@@ -1,0 +1,38 @@
+{
+  "name": "google-identity-admin",
+  "version": "0.9.1",
+  "description": "Google Identity Platform Admin CLI",
+  "author": "Alex Kucher",
+  "license": "MIT",
+  "private": false,
+  "bin": {
+    "gia": "bin/gia"
+  },
+  "main": "src/index",
+  "scripts": {
+    "lint": "eslint .",
+    "prepublishOnly" : "npm run lint",
+    "start": "node ."
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged && npm run typecheck"
+    }
+  },
+  "dependencies": {
+    "@firebase/app-types": "^0.6.0",
+    "colors": "^1.4.0",
+    "firebase-admin": "^8.12.1",
+    "lodash": "^4.17.15",
+    "yargs": "^15.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.0.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-prettier": "^3.1.3",
+    "husky": "^4.2.5",
+    "prettier": "^2.0.5"
+  }
+}
