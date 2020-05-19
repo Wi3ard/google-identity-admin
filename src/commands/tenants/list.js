@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const ora = require('ora');
 
 const { firebaseApp } = require('../../utils/firebaseApp');
 
@@ -17,22 +18,28 @@ exports.builder = yargs =>
   });
 
 exports.handler = async argv => {
-  const listTenants = async token => {
-    const result = [];
-    const { pageToken, tenants } = await firebaseApp(argv)
-      .auth()
-      .tenantManager()
-      .listTenants(100, token);
-    if (pageToken) {
-      _.concat(result, listTenants(pageToken));
-    }
-    return _.map(tenants, tenant => tenant.toJSON());
-  };
+  const spinner = ora({ color: 'yellow', text: 'Fetching data' }).start();
+  try {
+    const listTenants = async token => {
+      const result = [];
+      const { pageToken, tenants } = await firebaseApp(argv)
+        .auth()
+        .tenantManager()
+        .listTenants(100, token);
+      if (pageToken) {
+        _.concat(result, listTenants(pageToken));
+      }
+      return _.map(tenants, tenant => tenant.toJSON());
+    };
 
-  const tenants = await listTenants();
-  if (argv.output === 'plain') {
-    console.log(tenants);
-  } else if (argv.output === 'json') {
-    console.log(JSON.stringify(tenants));
+    const tenants = await listTenants();
+    spinner.stop();
+    if (argv.output === 'plain') {
+      console.log(tenants);
+    } else if (argv.output === 'json') {
+      console.log(JSON.stringify(tenants));
+    }
+  } finally {
+    spinner.stop();
   }
 };

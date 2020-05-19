@@ -2,6 +2,12 @@
 
 `gia` is a command line tool that provides CI/CD friendly approach to administrate [Google Identity Platform](https://developers.google.com/identity) including tenants and user accounts management.
 
+## Install
+
+```shell
+$ npm install google-identity-admin
+```
+
 ## Usage
 
 ### Authentication

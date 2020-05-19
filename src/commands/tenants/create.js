@@ -1,3 +1,5 @@
+const ora = require('ora');
+
 const { firebaseApp } = require('../../utils/firebaseApp');
 
 exports.command = 'create';
@@ -22,20 +24,26 @@ exports.builder = yargs =>
     });
 
 exports.handler = async argv => {
-  const tenant = await firebaseApp(argv)
-    .auth()
-    .tenantManager()
-    .createTenant({
-      displayName: argv.displayName,
-      emailSignInConfig: {
-        enabled: true,
-        passwordRequired: true,
-      },
-    });
+  const spinner = ora({ color: 'yellow', text: 'Creating tenant' }).start();
+  try {
+    const tenant = await firebaseApp(argv)
+      .auth()
+      .tenantManager()
+      .createTenant({
+        displayName: argv.displayName,
+        emailSignInConfig: {
+          enabled: true,
+          passwordRequired: true,
+        },
+      });
+    spinner.stop();
 
-  if (argv.output === 'plain') {
-    console.log(tenant);
-  } else if (argv.output === 'json') {
-    console.log(JSON.stringify(tenant));
+    if (argv.output === 'plain') {
+      console.log(tenant);
+    } else if (argv.output === 'json') {
+      console.log(JSON.stringify(tenant));
+    }
+  } finally {
+    spinner.stop();
   }
 };

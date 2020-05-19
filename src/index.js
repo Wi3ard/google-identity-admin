@@ -12,13 +12,13 @@ yargs
   .describe('v', 'show version information')
 
   // Commands.
+  .onFinishCommand(() => process.exit())
   .command(
     'tenant <action>',
     'Tenant management',
     yargs => {
       yargs
         .command(require('./commands/tenants/list'))
-        .onFinishCommand(() => process.exit())
         .command(require('./commands/tenants/create'))
         .command(require('./commands/tenants/delete'));
     },

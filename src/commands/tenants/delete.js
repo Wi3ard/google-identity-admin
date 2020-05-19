@@ -1,4 +1,6 @@
 require('colors');
+const ora = require('ora');
+
 const { firebaseApp } = require('../../utils/firebaseApp');
 
 exports.command = 'delete';
@@ -14,6 +16,12 @@ exports.builder = yargs =>
   });
 
 exports.handler = async argv => {
-  await firebaseApp(argv).auth().tenantManager().deleteTenant(argv.tenantId);
-  console.log(`Tenant ${argv.tenantId} has been deleted`.green);
+  const spinner = ora({ color: 'yellow', text: 'Deleting tenant' }).start();
+  try {
+    await firebaseApp(argv).auth().tenantManager().deleteTenant(argv.tenantId);
+    spinner.stop();
+    console.log(`Tenant ${argv.tenantId} has been deleted`.green);
+  } finally {
+    spinner.stop();
+  }
 };
