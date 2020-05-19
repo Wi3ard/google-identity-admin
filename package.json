@@ -1,6 +1,6 @@
 {
   "name": "google-identity-admin",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "Google Identity Platform Admin CLI",
   "author": "Alex Kucher",
   "license": "MIT",
